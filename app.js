@@ -41,7 +41,11 @@ main()
 });
 
 async function main() {
-  await mongoose.connect( dbUrl);
+  await mongoose.connect( dbUrl),{
+
+  
+  useNewUrlPareser:true,
+  useUnifiedTopology:true}
 }
 console.log("atlas",process.env.ATLASDB_URL);
 const store=MongoStore.create({
