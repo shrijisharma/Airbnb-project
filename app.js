@@ -39,11 +39,8 @@ main()
 .catch((err)=>{
     console.log(err);
 });
-
 async function main() {
   await mongoose.connect( dbUrl),{
-
-  
   useNewUrlPareser:true,
   useUnifiedTopology:true}
 }
