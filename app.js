@@ -40,10 +40,11 @@ main()
     console.log(err);
 });
 async function main() {
-  await mongoose.connect( dbUrl),{
-  useNewUrlPareser:true,
-  useUnifiedTopology:true}
-}
+  await mongoose.connect( dbUrl, {
+  useNewUrlParser:true,
+  useUnifiedTopology:true
+})
+};
 console.log("atlas",process.env.ATLASDB_URL);
 const store=MongoStore.create({
     mongoUrl:dbUrl,
@@ -54,7 +55,7 @@ const store=MongoStore.create({
 });
 store.on("error",(err)=>{
     console.log("error in mongo session store ",err);
-})
+});
 //validation for schema
 const sessionOption={
     store,
