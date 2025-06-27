@@ -99,3 +99,32 @@ min-height: 100vh;
     padding-left: 0;
     padding-right: 0;
 }
+@media screen and (max-width: 768px) {
+  .auth-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .search-bar {
+    width: 90%;
+    margin: auto;
+  }
+}
+@media screen and (max-width: 768px) {
+  .logo-text {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #filters {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    text-align: center;
+  }
+}
