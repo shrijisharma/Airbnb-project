@@ -112,9 +112,9 @@ app.use((err, req, res, next ) => {
 });
 
 
-app.get("/", (req, res) => {
-    res.redirect("/listings");
-});
+// app.get("/", (req, res) => {
+//     res.redirect("/listings");
+// });
 
 
 app.listen(port,(res)=>{
