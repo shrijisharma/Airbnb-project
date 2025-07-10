@@ -54,19 +54,33 @@ module.exports.editListing=async(req,res)=>{
     originalImageUrl=originalImageUrl.replace("/upload","/upload/h_250,w_250");
     res.render("listings/edit.ejs",{listing,originalImageUrl});
 };
-module.exports.updateListing=async(req,res)=>{
+// module.exports.updateListing=async(req,res)=>{
     
-    let {id}=req.params;
-    let listing=await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    if(typeof req.file !=="undefined"){
-         let url=req.file.path;
-    let filename=req.file.filename;
-    listing.image={url,filename};
-    await listing.save();
+//     let {id}=req.params;
+//     let listing=await Listing.findByIdAndUpdate(id,{...req.body.listing});
+//     if(typeof req.file !=="undefined"){
+//          let url=req.file.path;
+//     let filename=req.file.filename;
+//     listing.image={url,filename};
+//     await listing.save();
+//     }
+//     req.flash("success"," listings Updated");
+//     res.redirect(`/listings/${id}`);
+// };
+module.exports.updateListing = async (req, res) => {
+    let { id } = req.params;
+    if (!req.body.listing) throw new ExpressError(400, "Invalid listing data");
+    let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    if (typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = { url, filename };
+        await listing.save();
     }
-    req.flash("success"," listings Updated");
+    req.flash("success", "Listings Updated");
     res.redirect(`/listings/${id}`);
 };
+
 module.exports.destroyListing=async(req,res)=>{
    let {id}=req.params;
   let deletedListing= await Listing.findByIdAndDelete(id);
