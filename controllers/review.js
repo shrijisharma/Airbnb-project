@@ -11,10 +11,21 @@ module.exports.createReview= async (req,res)=>{
      req.flash("success","New review added");
     res.redirect(`/listings/${listing.id}`);
 };
-module.exports.destroyReview=async (req,res)=>{
-    let {id,reviewId}=req.params;
-    await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
-    await Review.findByIdAndDelete(reviewId);
-    req.flash("success","Review deleted");
-    res.redirect(`/listings/${id}`);
+// module.exports.destroyReview=async (req,res)=>{
+//     let {id,reviewId}=req.params;
+//     await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
+//     await Review.findByIdAndDelete(reviewId);
+//     req.flash("success","Review deleted");
+//     res.redirect(`/listings/${id}`);
+// };
+module.exports.destroyReview = async (req, res, next) => {
+    try {
+        let { id, reviewId } = req.params;
+        await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+        await Review.findByIdAndDelete(reviewId);
+        req.flash("success", "Review deleted");
+        res.redirect(`/listings/${id}`);
+    } catch (e) {
+        next(e);
+    }
 };
