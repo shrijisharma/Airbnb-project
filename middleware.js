@@ -49,7 +49,7 @@ module.exports. validateReview=(req,res,next)=>{
         throw new ExpressError(400,errMsg);
     }else{
         next();
-    };
+    }
 };
 
 module.exports.isReviewAuthor=async(req,res,next)=>{
