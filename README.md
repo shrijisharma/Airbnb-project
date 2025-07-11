@@ -5,7 +5,7 @@ This is a full-stack clone of Airbnb with user authentication, listing features,
 
 ## 🌐 Live Demo
 
-👉 [Click here to view the project](https://airbnb-project-3dk9.onrender.com)
+👉 [Click here to view the project](https://airbnb-clone-1xat.onrender.com)
 
 ## 🚀 Features
 
