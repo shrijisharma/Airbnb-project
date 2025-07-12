@@ -128,7 +128,7 @@ min-height: 100vh;
     text-align: center;
   }
 } 
-.form-container {
+/* .form-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
@@ -172,4 +172,8 @@ min-height: 100vh;
 
 .form-container button:hover {
   background-color: #555;
-}
+} */
+ .forgot{
+   margin: 50px auto;
+   margin: left 300px;
+ }

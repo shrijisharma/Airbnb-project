@@ -1,10 +1,41 @@
 <%- include("../includes/navbar.ejs") %>
 
-<div class="form-container">
-  <h2>Forgot Password</h2>
-  <form action="/forgot" method="POST">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" required>
-    <button type="submit">Send Reset Link</button>
-  </form>
+<div class="container vh-100 d-flex justify-content-center align-items-center bg-light forgot">
+  <div class="card shadow rounded-4 p-4" style="max-width: 400px; width: 100%; border: none;">
+    <h2 class="text-center mb-4 fw-bold text-dark">Forgot Password</h2>
+
+    <% if(error) { %>
+      <div class="alert alert-danger rounded-3"><%= error %></div>
+    <% } %>
+    <% if(success) { %>
+      <div class="alert alert-success rounded-3"><%= success %></div>
+    <% } %>
+
+    <form action="/forgot" method="POST">
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold text-secondary">Email address</label>
+        <input type="email" class="form-control rounded-pill shadow-sm border-0" id="email" name="email" required placeholder="Enter your email">
+      </div>
+      <button type="submit" class="btn btn-gradient w-100 rounded-pill py-2 fw-semibold">Send Reset Link</button>
+    </form>
+  </div>
 </div>
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+  .btn-gradient {
+    background: linear-gradient(45deg, #4b6cb7, #182848);
+    color: #fff;
+    border: none;
+    transition: 0.4s ease;
+  }
+  .btn-gradient:hover {
+    background: linear-gradient(45deg, #182848, #4b6cb7);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+</style>
+
+<%- include("../includes/footer.ejs") %>
+
