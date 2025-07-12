@@ -33,9 +33,7 @@
                 </div>
             </div>
         </div>
-          <form method="post" action="/listings/<%= listing._id %>?_method=delete">
-                    <button class="btn btn-dark  offset-5">Delete </button>
-                </form>
+          
 
         
         <% if( currUser && listing.owner._id.equals(currUser._id)){ %>

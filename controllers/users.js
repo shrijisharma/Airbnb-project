@@ -15,7 +15,7 @@ module.exports.signup = async (req, res, next) => {
     const registeredUser = await User.register(user, password);
     req.login(registeredUser, (err) => {
       if (err) return next(err);
-      req.flash("success", "Welcome to Airbnb Clone!");
+      req.flash("success", "Welcome to Wanderlust!");
       res.redirect("/listings");
     });
   } catch (e) {

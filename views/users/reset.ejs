@@ -1,10 +1,52 @@
-<%- include("../includes/navbar.ejs") %>
+<% layout('layouts/boilerplate') %>
 
-<div class="form-container">
-  <h2>Reset Your Password</h2>
-  <form action="/reset/<%= token %>" method="POST">
-    <label for="password">New Password</label>
-    <input type="password" id="password" name="password" required>
-    <button type="submit">Reset Password</button>
-  </form>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 400px; width: 100%;">
+    <h3 class="text-center mb-4 fw-bold">Reset Password</h3>
+    <form action="/reset/<%= token %>" method="POST" novalidate>
+      <div class="mb-3">
+        <label for="password" class="form-label">New Password</label>
+        <input
+          type="password"
+          class="form-control rounded-pill shadow-sm"
+          id="password"
+          name="password"
+          placeholder="Enter new password"
+          required
+        /><br><br>
+      </div>
+      <button type="submit" class="btn btn-gradient w-100 rounded-pill">Reset Password</button>
+    </form>
+  </div>
 </div>
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .btn-gradient {
+    background: #fe424d !important;
+    color: #fff;
+    border: none;
+    transition: 0.3s;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(45deg, #182848, #4b6cb7);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .card {
+    border: none;
+    border-radius: 1rem;
+    width:20rem;
+    height:30rem;
+  }
+
+  .form-control {
+    border-radius: 50px;
+    border: 1px solid #ccc;
+  }
+</style>
+
