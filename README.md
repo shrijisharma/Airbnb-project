@@ -14,6 +14,13 @@ This is a full-stack clone of Airbnb with user authentication, listing features,
 - MongoDB Session Store
 - Fully Responsive Layout
 
+✅ Password Reset Functionality
+✅ Forgot Password Flow
+✅ User Password Recovery
+✅ Reset Password via Email Link
+
+
+
 ## 🛠 Tech Stack
 
 - Node.js
