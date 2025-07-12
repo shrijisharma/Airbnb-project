@@ -1,5 +1,10 @@
-<h3>Reset Password</h3>
-<form method="POST" action="/reset/<%= token %>">
-  <input type="password" name="password" placeholder="New password" required>
-  <button>Reset Password</button>
-</form>
+<%- include("../includes/navbar.ejs") %>
+
+<div class="form-container">
+  <h2>Reset Your Password</h2>
+  <form action="/reset/<%= token %>" method="POST">
+    <label for="password">New Password</label>
+    <input type="password" id="password" name="password" required>
+    <button type="submit">Reset Password</button>
+  </form>
+</div>
