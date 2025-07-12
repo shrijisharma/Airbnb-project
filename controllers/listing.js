@@ -1,5 +1,7 @@
 const { model } = require("mongoose");
-const Listing=require("../models/listing")
+const Listing=require("../models/listing");
+const ExpressError = require("../utils/ExpressError.js");
+
 
 module.exports.index=async(req,res)=>{
     const allListings=await Listing.find({});
