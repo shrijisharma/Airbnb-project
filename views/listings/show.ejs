@@ -33,6 +33,11 @@
                 </div>
             </div>
         </div>
+          <form method="post" action="/listings/<%= listing._id %>?_method=delete">
+                    <button class="btn btn-dark  offset-5">Delete </button>
+                </form>
+
+        
         <% if( currUser && listing.owner._id.equals(currUser._id)){ %>
             <div class="btns">
                 <a href="/listings/<%= listing.id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
@@ -85,7 +90,11 @@
                             <button class="btn btn-outline-dark mb-3">submit</button>
                         </form>
                         <hr>
-                        <% } %>
+                        <% } else { %>
+    <div class="alert alert-warning mt-3">
+        Please <a href="/login">log in</a> or <a href="/signup">sign up</a> to add a review!
+    </div>
+<% } %>
                             <p><b>All review</b></p>
 
 
