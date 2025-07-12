@@ -3,13 +3,55 @@ const nodemailer = require('nodemailer');
 const User = require("../models/user.js");
 const sendResetEmail = require("../utils/sendEmail.js");
 
+// SIGNUP FORM
+module.exports.signupForm = (req, res) => {
+  res.render("users/signup.ejs");
+};
 
-// 1️⃣ Render forgot password form
+// SIGNUP HANDLER
+module.exports.signup = async (req, res, next) => {
+  try {
+    const { username, email, password } = req.body;
+    const user = new User({ username, email });
+    const registeredUser = await User.register(user, password);
+    req.login(registeredUser, (err) => {
+      if (err) return next(err);
+      req.flash("success", "Welcome to Airbnb Clone!");
+      res.redirect("/listings");
+    });
+  } catch (e) {
+    req.flash("error", e.message);
+    res.redirect("/signup");
+  }
+};
+
+// LOGIN FORM
+module.exports.loginForm = (req, res) => {
+  res.render("users/login.ejs");
+};
+
+// LOGIN HANDLER
+module.exports.login = (req, res) => {
+  req.flash("success", "Welcome back!");
+  const redirectUrl = res.locals.redirectUrl || "/listings";
+  res.redirect(redirectUrl);
+};
+
+// LOGOUT
+module.exports.logout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    req.flash("success", "Goodbye!");
+    res.redirect("/listings");
+  });
+};
+
+// FORGOT PASSWORD FORM
 module.exports.renderForgotForm = (req, res) => {
   res.render("users/forgot.ejs");
 };
 
-// 2️⃣ Handle forgot password POST
+// FORGOT PASSWORD HANDLER
 module.exports.forgotPassword = async (req, res) => {
   const token = crypto.randomBytes(20).toString('hex');
   const user = await User.findOne({ email: req.body.email });
@@ -42,7 +84,7 @@ http://${req.headers.host}/reset/${token}`
   res.redirect("/login");
 };
 
-// 3️⃣ Render reset form
+// RESET FORM
 module.exports.renderResetForm = async (req, res) => {
   const user = await User.findOne({
     resetPasswordToken: req.params.token,
@@ -55,7 +97,7 @@ module.exports.renderResetForm = async (req, res) => {
   res.render("users/reset.ejs", { token: req.params.token });
 };
 
-// 4️⃣ Handle reset POST
+// RESET HANDLER
 module.exports.resetPassword = async (req, res) => {
   const user = await User.findOne({
     resetPasswordToken: req.params.token,
@@ -72,3 +114,4 @@ module.exports.resetPassword = async (req, res) => {
   req.flash("success", "Your password has been changed.");
   res.redirect("/login");
 };
+
