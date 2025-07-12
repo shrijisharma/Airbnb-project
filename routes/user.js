@@ -16,7 +16,7 @@ router.route("/signup")
 router.route("/login")
    .get(userController.loginForm)
    .post(saveRedirectUrl,
-     passport.authenticate('local', { failureRedirect: '/login',failureFlash:true }),
+     passport.authenticate('local', { failureRedirect: '/login',failureFlash:'Invalid username or password. Please try again.' }),
      userController.login);
 //logout route
 router.get("/logout",userController.logout);
