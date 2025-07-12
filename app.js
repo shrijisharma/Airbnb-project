@@ -67,7 +67,9 @@ const sessionOption={
         maxAge:7*24*60*60*1000,
         httpOnly:true,
     },
-};
+}; const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
+
 
 // app.use((req, res, next) => {
 //     res.locals.currUser = req.user; // or req.session.user if you're not using passport

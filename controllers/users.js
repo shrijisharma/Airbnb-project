@@ -1,42 +1,74 @@
-const User=require("../models/user.js");
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const User = require("../models/user.js");
+const sendResetEmail = require("../utils/sendEmail.js");
 
-module.exports.signupForm=(req,res)=>{
-    res.render("users/signup.ejs");
+
+// 1️⃣ Render forgot password form
+module.exports.renderForgotForm = (req, res) => {
+  res.render("users/forgot.ejs");
 };
-module.exports.signup=async(req,res)=>{
- try{
-    let {username,email,password}=req.body;
-   const newUser=new User({username,email});
-   const registerUser=await User.register(newUser,password);
-   console.log(registerUser);
-   req.login(registerUser,(err)=>{
-    if(err){
-        next(err);
+
+// 2️⃣ Handle forgot password POST
+module.exports.forgotPassword = async (req, res) => {
+  const token = crypto.randomBytes(20).toString('hex');
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    req.flash("error", "No account with that email.");
+    return res.redirect("/forgot");
+  }
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = Date.now() + 3600000;
+  await user.save();
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
-   req.flash("success","Welcome to Wanderlust");
-   res.redirect("/listings");
-   });
-  
- }catch(e){
-    req.flash("error",e.message);
-    res.redirect("/signup");
- }
-   
+  });
+
+  const mailOptions = {
+    to: user.email,
+    from: process.env.EMAIL_USER,
+    subject: 'Password Reset',
+    text: `Click the link to reset your password:\n\n
+http://${req.headers.host}/reset/${token}`
+  };
+
+  await transporter.sendMail(mailOptions);
+  req.flash("success", "An email has been sent with reset instructions.");
+  res.redirect("/login");
 };
-module.exports.loginForm=(req,res)=>{
-    res.render("users/login.ejs");
+
+// 3️⃣ Render reset form
+module.exports.renderResetForm = async (req, res) => {
+  const user = await User.findOne({
+    resetPasswordToken: req.params.token,
+    resetPasswordExpires: { $gt: Date.now() }
+  });
+  if (!user) {
+    req.flash("error", "Password reset token is invalid or expired.");
+    return res.redirect("/forgot");
+  }
+  res.render("users/reset.ejs", { token: req.params.token });
 };
-module.exports.login=async(req,res)=>{
-req.flash("success","Welcome back to Wanderlust");
-let redirectUrl=res.locals.redirectUrl || "listings";
-res.redirect(redirectUrl);
-};
-module.exports.logout=(req,res,next)=>{
-    req.logout((err)=>{
-        if(err){
-            return next(err);
-        }
-        req.flash("success","You are logged out");
-        res.redirect("/listings");
-    })
+
+// 4️⃣ Handle reset POST
+module.exports.resetPassword = async (req, res) => {
+  const user = await User.findOne({
+    resetPasswordToken: req.params.token,
+    resetPasswordExpires: { $gt: Date.now() }
+  });
+  if (!user) {
+    req.flash("error", "Password reset token is invalid or expired.");
+    return res.redirect("/forgot");
+  }
+  await user.setPassword(req.body.password);
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+  await user.save();
+  req.flash("success", "Your password has been changed.");
+  res.redirect("/login");
 };

@@ -20,4 +20,9 @@ router.route("/login")
      userController.login);
 //logout route
 router.get("/logout",userController.logout);
+router.get("/forgot", userController.renderForgotForm);
+router.post("/forgot", wrapAsync(userController.forgotPassword));
+router.get("/reset/:token", wrapAsync(userController.renderResetForm));
+router.post("/reset/:token", wrapAsync(userController.resetPassword));
+
 module.exports=router;
