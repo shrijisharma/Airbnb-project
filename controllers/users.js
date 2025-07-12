@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 const User = require("../models/user.js");
 const sendResetEmail = require("../utils/sendEmail.js");
 
@@ -59,27 +58,14 @@ module.exports.forgotPassword = async (req, res) => {
     req.flash("error", "No account with that email.");
     return res.redirect("/forgot");
   }
+
   user.resetPasswordToken = token;
   user.resetPasswordExpires = Date.now() + 3600000;
   await user.save();
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
+  const resetLink = `http://${req.headers.host}/reset/${token}`;
+  await sendResetEmail(user.email, resetLink);
 
-  const mailOptions = {
-    to: user.email,
-    from: process.env.EMAIL_USER,
-    subject: 'Password Reset',
-    text: `Click the link to reset your password:\n\n
-http://${req.headers.host}/reset/${token}`
-  };
-
-  await transporter.sendMail(mailOptions);
   req.flash("success", "An email has been sent with reset instructions.");
   res.redirect("/login");
 };
@@ -90,10 +76,12 @@ module.exports.renderResetForm = async (req, res) => {
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() }
   });
+
   if (!user) {
     req.flash("error", "Password reset token is invalid or expired.");
     return res.redirect("/forgot");
   }
+
   res.render("users/reset.ejs", { token: req.params.token });
 };
 
@@ -103,15 +91,17 @@ module.exports.resetPassword = async (req, res) => {
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() }
   });
+
   if (!user) {
     req.flash("error", "Password reset token is invalid or expired.");
     return res.redirect("/forgot");
   }
+
   await user.setPassword(req.body.password);
   user.resetPasswordToken = undefined;
   user.resetPasswordExpires = undefined;
   await user.save();
+
   req.flash("success", "Your password has been changed.");
   res.redirect("/login");
 };
-
