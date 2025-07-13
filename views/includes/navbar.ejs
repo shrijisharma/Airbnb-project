@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
 .btn-search {
   background-color: #fe424d;
   color: #fff;
@@ -29,67 +29,55 @@
 .offcanvas-header {
   border-bottom: 1px solid #ddd;
 }
-</style>
+</style> -->
 
-
-<nav class="navbar navbar-light bg-body-light border-bottom sticky-top">
+<!-- Navbar -->
+<nav class="navbar navbar-light bg-light px-3">
   <div class="container-fluid">
-    <!-- Brand with Icon + Explore -->
-    <a class="navbar-brand d-flex align-items-center" href="/listings">
-      <i class="fa-solid fa-compass"></i>
-      <span>Explore</span>
-    </a>
-
-    <!-- Search Bar (Always visible on top) -->
-    <form class="d-none d-md-flex search-bar mx-auto" role="search">
-      <input class="form-control me-2 search-inp" type="search" placeholder="Search destination" aria-label="Search">
-      <button class="btn btn-search d-flex align-items-center" type="submit">
-        <i class="fa-solid fa-magnifying-glass"></i> Search
-      </button>
-    </form>
-
-    <!-- Toggle Button for Offcanvas on mobile -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar">
-      <span class="navbar-toggler-icon"></span>
+    <!-- Offcanvas toggle button -->
+    <button class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+      <i class="bi bi-list fs-3"></i> <!-- Burger icon -->
     </button>
 
-    <!-- Offcanvas Menu -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <!-- Search Bar also in Offcanvas for Mobile -->
-        <form class="d-flex search-bar mb-3" role="search">
-          <input class="form-control me-2 search-inp" type="search" placeholder="Search destination" aria-label="Search">
-          <button class="btn btn-search d-flex align-items-center" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i> Search
-          </button>
-        </form>
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link" href="/listings">Explore</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/listings/new">Add an Airbnb</a>
-          </li>
-          <% if (!currUser) { %>
-          <li class="nav-item">
-            <a class="nav-link" href="/signup"><b>Sign up</b></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login"><b>Login</b></a>
-          </li>
-          <% } %>
-          <% if (currUser) { %>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout"><b>Logout</b></a>
-          </li>
-          <% } %>
-        </ul>
-      </div>
-    </div>
+    <a class="navbar-brand fw-bold fs-4" href="/">Airbnb Clone</a>
   </div>
 </nav>
+
+<!-- Offcanvas Sidebar Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Explore</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/listings">All Listings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/listings/new">Add a Airbnb</a>
+      </li>
+
+      <% if (!currUser) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/signup">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+      <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Hello, <%= currUser.username %></a>
+        </li>
+        <li class="nav-item">
+          <form action="/logout?_method=POST" method="POST">
+            <button class="btn btn-outline-danger mt-2">Logout</button>
+          </form>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</div>
