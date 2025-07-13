@@ -1,56 +1,71 @@
 <style>
-.btn-search{
+.btn-search {
   background-color: #fe424d;
-  color:#fff;
+  color: #fff;
   border-radius: 25px;
-
 }
+
 .btn-search:hover {
   background-color: #fe424d;
-  color:#fff;
-  
+  color: #fff;
 }
+
 .btn-search i {
- 
-  margin-right:0.5rem  ;
+  margin-right: 0.5rem;
 }
-.search-inp{
-   border-radius: 25px;
-   padding: 0.5rem 3rem 0.5rem 3rem ;
-   font-size: 1rem;
+
+.search-inp {
+  border-radius: 25px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    width: 100%;
+    margin-top: 10px;
+  }
 }
 </style>
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+
+<nav class="navbar navbar-expand-md navbar-light bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand d-flex align-items-center" href="/listings">
+      <i class="fa-solid fa-compass me-2"></i> Wanderlust
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <div class="navbar-nav">
-         
-          <a class="nav-link" href="/listings">Explore</a>        
-          </div>
-       <div class="navbar-nav ms-auto" >
-          <form class=" d-flex align-items-center search-bar " role="search">
-           <input class="form-control me-2 search-inp" type="search" placeholder="Search destination" aria-label="Search"/>
-            <button class="btn btn-search d-flex align-items-center" 
-             type="submit">
-             <i class="fa-solid fa-magnifying-glass"></i>
-              Search</button>
-    </form>
-       </div>
-             <div class="navbar-nav ms-auto" >
-               <a class="nav-link logo-text" href="/listings/new">Added a airbnb</a>
-      
-              <% if(!currUser){ %>
-          <a class="nav-link auth-buttons "  href="/signup"><b>Sign up</b> </a>      
-          <a class="nav-link auth-buttons " href="/login"><b>Login</b> </a> 
-          <% } %>   
-          <% if(currUser) {%>    
-          <a class="nav-link" href="/logout"><b>Logout</b> </a>
-          <% } %>
-          </div>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/listings">Explore</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/listings/new">Add an Airbnb</a>
+        </li>
+        <% if(!currUser){ %>
+        <li class="nav-item">
+          <a class="nav-link" href="/signup"><b>Sign up</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login"><b>Login</b></a>
+        </li>
+        <% } %>
+        <% if(currUser) {%>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout"><b>Logout</b></a>
+        </li>
+        <% } %>
+      </ul>
+      <form class="d-flex search-bar" role="search">
+        <input class="form-control me-2 search-inp" type="search" placeholder="Search destination" aria-label="Search">
+        <button class="btn btn-search d-flex align-items-center" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i> Search
+        </button>
+      </form>
     </div>
   </div>
 </nav>
